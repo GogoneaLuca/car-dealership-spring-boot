@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>EliteAuto | Gestiune Vehicul</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { background-color: #f4f7f6; font-family: 'Inter', sans-serif; color: #2c3e50; }
+    .navbar-custom { background: #ffffff; border-bottom: 1px solid #e0e6ed; padding: 0.8rem 0; }
+    .brand-logo { font-weight: 700; color: #1a252f; font-size: 1.4rem; letter-spacing: -0.5px; }
+    .brand-logo i { color: #3498db; }
+    .card { border-radius: 10px; border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    .form-label { font-weight: 500; color: #495057; font-size: 0.9rem; }
+    .form-control, .form-select { border-radius: 8px; border: 1px solid #ced4da; padding: 0.6rem 1rem; }
+    .form-control:focus, .form-select:focus { border-color: #3498db; box-shadow: 0 0 0 0.25rem rgba(52, 152, 219, 0.1); }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-custom sticky-top mb-4">
+  <div class="container">
+    <a class="navbar-brand brand-logo text-decoration-none" href="/"><i class="fas fa-car-side me-2"></i>EliteAuto</a>
+    <div class="d-flex align-items-center">
+      <a class="btn btn-light rounded-pill border-0" href="/logout">
+        <img src="https://ui-avatars.com/api/?name=Admin&background=3498db&color=fff" class="rounded-circle me-2" width="28">
+        <span class="fw-medium text-dark small">Admin</span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<div class="container pb-5">
+  <div class="d-flex align-items-center mb-4">
+    <a href="/" class="btn btn-light text-secondary me-3"><i class="fas fa-arrow-left"></i> Înapoi</a>
+    <h4 class="m-0 fw-bold" th:text="${masina.id == null ? 'Adaugă Vehicul Nou' : 'Editează Vehiculul #' + masina.id}"></h4>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card p-4 p-md-5">
+        <form th:action="@{/salveaza-masina}" th:object="${masina}" method="post">
+          <input type="hidden" th:field="*{id}">
+          <input type="hidden" th:field="*{disponibilitate}">
+
+          <div class="row g-4">
+            <div class="col-md-6">
+              <label class="form-label">Marca</label>
+              <input type="text" th:field="*{marca}" class="form-control" placeholder="ex: BMW" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Model</label>
+              <input type="text" th:field="*{model}" class="form-control" placeholder="ex: Seria 3" required>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">An Fabricație</label>
+              <input type="number" th:field="*{anFabricatie}" class="form-control" placeholder="2024" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Preț Listare (€)</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light">€</span>
+                <input type="number" step="0.01" th:field="*{pret}" class="form-control" required>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Rulaj (Kilometraj)</label>
+              <div class="input-group">
+                <input type="number" th:field="*{kilometraj}" class="form-control" required>
+                <span class="input-group-text bg-light">km</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Serie Șasiu (VIN)</label>
+              <input type="text" th:field="*{numarSasiu}" class="form-control font-monospace text-uppercase" placeholder="17 caractere">
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label">Combustibil</label>
+              <select th:field="*{combustibil}" class="form-select">
+                <option value="Benzina">Benzină</option>
+                <option value="Diesel">Diesel</option>
+                <option value="Hibrid">Hibrid</option>
+                <option value="Electric">Electric</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Stare Vehicul</label>
+              <select th:field="*{stare}" class="form-select">
+                <option value="Nou">Nou (0 km)</option>
+                <option value="Utilizat">Rulat (Second-hand)</option>
+              </select>
+            </div>
+          </div>
+
+          <hr class="my-4 text-muted">
+          <div class="d-flex justify-content-end gap-2">
+            <a href="/" class="btn btn-light px-4 fw-medium">Anulează</a>
+            <button type="submit" class="btn btn-primary px-5 fw-medium"><i class="fas fa-save me-2"></i>Salvează Datele</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
